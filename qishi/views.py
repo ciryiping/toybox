@@ -8,22 +8,25 @@ from qishi.models import User
 def test(request):
     return render(request, "qishi/base.html", {})
 
+def getUserInfo(request):
+    params = {
+      "memberId"  : request.session.get("memberId", False),    
+      "nickname"  : request.session.get("nickname", False),
+      "privilege" : request.session.get("privilege", 99),
+    }
+    
+    print(params)
+
+    if params['memberId'] and params['nickname']:
+        return params
+
+    return {}
+           
+
 def index(request):
+    params = getUserInfo(request)
+    return render(request, "qishi/index.html", params)
 
-    # First check if the member is logged in
-    memberId = request.session.get("memberId", False)    
-    nickname = request.session.get("nickname", False)
-
-    params = {'nickname': False}
-    if memberId and nickname:
-        params['nickname'] = nickname
-
-    # Load the index page
-    template = loader.get_template('qishi/index.html')
-    context = RequestContext(request, params)
-    return HttpResponse(template.render(context))
-    
-    
 
 def login(request):
 
@@ -39,14 +42,14 @@ def login(request):
         try:
             u = User.objects.get(username=request.POST['username'])
         except:
-            params['login_failed'] = True            
+            pass
         else:
             if u.password == request.POST['password']:
-                request.session['memberId'] = u.pk
-                request.session['nickname'] = u.nickname
+                request.session['memberId']   = u.pk
+                request.session['nickname']   = u.nickname
+                request.session['privilege'] = u.privilege
                 return index(request)
-            else:
-                params['login_failed'] = True
+        params['login_failed'] = True
 
     # display the login page
     template = loader.get_template('qishi/login.html')
@@ -91,11 +94,14 @@ def register(request):
             params['failed'] = "Invalid Password."
             return render(request, 'qishi/register.html', params)
 
-        u = User(username = username,
-                 password = password,
-                 nickname = nickname)
-        u.save()
-        return login(request)
+        try:
+            u = User(username = username,
+                     password = password,
+                     nickname = nickname)
+            u.save()
+            return login(request)
+        except:
+            params['failed'] = "Cannot register (database error)."
         
     # display the register page
     return render(request, 'qishi/register.html', params)
@@ -113,6 +119,7 @@ def logoff(request):
     except KeyError:
         pass
         
+    request.session['priviledge'] = 99
     return index(request)
 
 

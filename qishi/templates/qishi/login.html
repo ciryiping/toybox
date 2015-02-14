@@ -1,16 +1,49 @@
-{% if login_failed %}
-<span style="color:#FF0000">Login failed!</span><br/>
-{% else %}
-User Log In:<br/>
-{% endif %}
+{% extends "qishi/base.html" %}
 
-<form action="{% url 'login' %}" method="post">
-  {% csrf_token %}
-    User Name:<br/>
-    <input type="text" name="username"><br/>
-    Password:<br/>
-    <input type="password" name="password"><br/>
-    <input type="submit" value="login"><br/>
-</form>
-<br/>
-Click <a href="{% url 'index' %}">here</a> to return to the main page<br/>
+{% block login_area %}{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-4 col-md-offset-7">
+      <div class="panel panel-default">
+
+        <div class="panel-heading">
+          <span class="glyphicon glyphicon-lock"></span> Login
+        </div>
+
+        <div class="panel-body">
+          <form action="{% url 'login' %}" class="form-horizontal" role="form" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="username" class="col-sm-3 control-label"> Username</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="username" name="username"
+                       placeholder="Username" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="password" class="col-sm-3 control-label"> Password</label>
+              <div class="col-sm-9">
+                <input type="password" class="form-control" id="password" name="password"
+                       placeholder="Password" required>
+              </div>
+            </div>
+            <div class="form-group last">
+              <div class="col-sm-offset-3 col-sm-9">
+                <button type="submit" class="btn btn-success btn-sm">
+                  Sign in</button>
+                <button type="reset"  class="btn btn-default btn-sm">
+                  Reset</button>
+              </div>
+            </div>
+          </form>
+        </div>
+ 
+        {% if login_failed %}
+        <div class="panel-footer" style="color:#FF2232">Login Failed</div> 
+        {% endif %}
+      </div>
+    </div>
+  </div>  
+{% endblock %}
+
