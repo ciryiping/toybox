@@ -1,0 +1,19 @@
+{% if not failed %}
+  New User Registration<br/>
+{% else %}
+  <font style="color:#FF0000">{{ failed }}</font>
+{% endif %}
+<form action="{% url 'register' %}" method="POST">
+  {% csrf_token %}
+    User Name (at least 4 letters):<br/>
+    <input type="text" name="username"><br/>
+    Nick Name:<br/>
+    <input type="text" name="nickname"><br/>
+    Password:<br/>
+    <input type="password" name="password"><br/>
+    Repeat Password:<br/>
+    <input type="password" name="password2"><br/>
+    <input type="submit" value="register"><br/>
+</form>
+<br/>
+Click <a href="{% url 'index' %}">here</a> to return to the main page<br/>

@@ -1,0 +1,16 @@
+{% if login_failed %}
+<span style="color:#FF0000">Login failed!</span><br/>
+{% else %}
+User Log In:<br/>
+{% endif %}
+
+<form action="{% url 'login' %}" method="post">
+  {% csrf_token %}
+    User Name:<br/>
+    <input type="text" name="username"><br/>
+    Password:<br/>
+    <input type="password" name="password"><br/>
+    <input type="submit" value="login"><br/>
+</form>
+<br/>
+Click <a href="{% url 'index' %}">here</a> to return to the main page<br/>

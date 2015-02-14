@@ -1,0 +1,9 @@
+{% if nickname %}
+   hi {{ nickname }}, </br>
+   <a href="{% url 'logoff' %}">Logoff</a></br>
+{% else %}
+   <a href="{% url 'login' %}">Login</a> or 
+   <a href="{% url 'register' %}">register</a> <br/>
+{% endif %}
+
+<a href="{% url 'admin' %}">Admin</a>

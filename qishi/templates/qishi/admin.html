@@ -1,0 +1,28 @@
+Click <a href="{% url 'index' %}">here</a> to return to the main page<br/>
+
+{% if user_list %}
+  <table>
+    <tbody>
+      <tr>
+          <th>User ID</th>
+          <th>Username</th>
+          <th>Nickname</th>
+          <th>Password</th>
+          <th>Privilege</th>
+      </tr>
+      {% for user in user_list %}
+        <tr>
+          <td>{{ user.pk }}</td>
+          <td>{{ user.username }}</td>
+          <td>{{ user.nickname }}</td>
+          <td>******</td>
+          <td>{{ user.privilege }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  
+{% else %}
+  <p>No User Found</p>
+{% endif %}
+
