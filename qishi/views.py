@@ -36,7 +36,7 @@ def login(request):
 
     # Check if user is already logged in
     if request.session.get("memberId", False) and \
-       request.session.get("username", False):
+       request.session.get("nickname", False):
         return index(request)
 
     params = {'login_failed' : False}
