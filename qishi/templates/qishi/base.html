@@ -24,18 +24,20 @@
 
           <ul class="nav navbar-nav">
               <li><a href="#">Activities</a></li>
+<!-- 
               {% if privilege and privilege <= 1 %}
                 <li><a href="{% url 'admin' %}">
                   <span class="glyphicon glyphicon-star"></span> admin</a>
                 </li>
               {% endif %}
+ -->
               <li><a href="#">About Us</a></li>
           </ul>
 
           {% block login_area %}
           <ul class="nav navbar-nav navbar-right">
-            {% if nickname %}
-              <li><a>Welcome <b>{{ nickname }}</b></a></li>
+            {% if username %}
+              <li><a>Welcome <b>{{ username }}</b></a></li>
               <li><a id="rightmost-nav" href="{% url 'logoff' %}">Logoff</a></li>
             {% else %}
               <li><a href="{% url 'login' %}">Login</a></li>

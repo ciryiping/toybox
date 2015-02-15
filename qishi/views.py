@@ -2,23 +2,25 @@ from django.conf import settings
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext, loader
+from django.contrib.auth.models import User
 
-from qishi.models import User
+#from qishi.models import User
 
 
 def getUserInfo(request):
     """Parse User Info
-    If the user has logged in, the function will return a dictionary with three entries:
-      memberId, nickname, privilege
+    If the user has logged in, the function will return a dictionary with two entries:
+      memberId, username 
     If the user's login is unsuccessfuld
     """
     params = {
       "memberId"  : request.session.get("memberId", False),    
-      "nickname"  : request.session.get("nickname", False),
-      "privilege" : request.session.get("privilege", 99),
+      "username"  : request.session.get("username", False),
+#      "nickname"  : request.session.get("nickname", False),
+#      "privilege" : request.session.get("privilege", 99),
     }
     
-    if params['memberId'] and params['nickname']:
+    if params['memberId']  :
         pass
     else:
         params = {}
@@ -35,8 +37,7 @@ def index(request):
 def login(request):
 
     # Check if user is already logged in
-    if request.session.get("memberId", False) and \
-       request.session.get("nickname", False):
+    if request.session.get("memberId", False)  :
         return index(request)
 
     params = {'login_failed' : False}
@@ -50,15 +51,16 @@ def login(request):
         else:
             if u.password == request.POST['password']:
                 request.session['memberId']   = u.pk
-                request.session['nickname']   = u.nickname
-                request.session['privilege'] = u.privilege
+                request.session['username']  = u.username
+#                request.session['nickname']   = u.nickname
+#                request.session['privilege'] = u.privilege
                 return index(request)
         params['login_failed'] = True
 
     # display the login page
     template = loader.get_template('qishi/login.html')
     context = RequestContext(request, params)
-    return HttpResponse(template.render(context))
+    return  HttpResponse(template.render(context))
     
 
 
@@ -89,10 +91,10 @@ def register(request):
             return render(request, 'qishi/register.html', params)
 
         # check if password is valid
-        nickname  = request.POST.get('nickname',  False)        
+#        nickname  = request.POST.get('nickname',  False)        
         password  = request.POST.get('password',  False)
         password2 = request.POST.get('password2', False)
-        if nickname and password and password2 and password == password2:
+        if password and password2 and password == password2:
             pass
         else:
             params['failed'] = "Invalid Password."
@@ -100,8 +102,7 @@ def register(request):
 
         try:
             u = User(username = username,
-                     password = password,
-                     nickname = nickname)
+                     password = password)
             u.save()
             return login(request)
         except:
@@ -117,13 +118,17 @@ def logoff(request):
         del request.session['memberId']
     except KeyError:
         pass
-
     try:
-        del request.session['nickname']
+        del request.session['username']
     except KeyError:
         pass
+
+#    try:
+#        del request.session['nickname']
+#    except KeyError:
+#        pass
         
-    request.session['priviledge'] = 99
+#    request.session['priviledge'] = 99
     return index(request)
 
 
@@ -140,7 +145,7 @@ def admin(request):
     except:
         return render(request, "qishi/admin_refuse.html", {})
 
-    if u.privilege != 0 and u.privilege != 1:
+    if not u.is_staff:
         return render(request, "qishi/admin_refuse.html", {})
 
     # List all users    

@@ -21,6 +21,7 @@
                        placeholder="Username" required>
               </div>
           </div>
+<!-- 
           <div class="form-group">
               <label for="nickname" class="col-sm-3 control-label"> Username</label>
               <div class="col-sm-9">
@@ -28,6 +29,7 @@
                        placeholder="Nickname" required>
               </div>
           </div>
+ -->
           <div class="form-group">
             <label for="password" class="col-sm-3 control-label"> Password</label>
             <div class="col-sm-9">
@@ -69,8 +71,6 @@
   {% csrf_token %}
     User Name (at least 4 letters):<br/>
     <input type="text" name="username"><br/>
-    Nick Name:<br/>
-    <input type="text" name="nickname"><br/>
     Password:<br/>
     <input type="password" name="password"><br/>
     Repeat Password:<br/>
