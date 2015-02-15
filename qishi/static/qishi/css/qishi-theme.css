@@ -1,0 +1,56 @@
+.navbar-custom {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 3;
+  color: #666666;
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+.navbar-custom .nav li a {
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+#rightmost-nav {
+  padding-right: 40px;
+}
+.navbar-custom .navbar-brand {
+  padding: 20px 10px 10px 30px;
+}
+.navbar-custom .nav li a {
+  padding: 22px 10px 10px 10px;
+}
+
+.navbar-custom .navbar-brand {
+  font-weight: 800;
+}
+.navbar-custom {
+  opacity:0.7;
+  border-bottom: 1px solid transparent;
+}
+.intro-header {
+  background-color: #808080;
+  background: no-repeat center center;
+  background-attachment: scroll;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+  margin-bottom: 50px;
+
+  text-shadow: 2px 2px #999999;
+}
+.intro-header .site-heading {
+  padding: 100px 0 50px;
+  color: white;
+}
+.intro-header .site-heading .subheading {
+  font-size: 24px;
+  line-height: 1.1;
+  display: block;
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 300;
+  margin: 10px 0 0;
+}
