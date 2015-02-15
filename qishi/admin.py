@@ -1,10 +1,10 @@
 from django.contrib import admin
 
-from qishi.models import User
+#from django.contrib.auth.models import User
 
 # Register your models here.
 class UserAdmin(admin.ModelAdmin):
-    field = ['username', 'nickname', 'password', 'priviledge']
+    field = ['username',   'password' ]
 
-admin.site.register(User, UserAdmin)    
+#admin.site.register(User, UserAdmin)    
 
