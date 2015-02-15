@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext, loader
@@ -5,22 +6,25 @@ from django.template import RequestContext, loader
 from qishi.models import User
 
 
-def test(request):
-    return render(request, "qishi/base.html", {})
-
 def getUserInfo(request):
+    """Parse User Info
+    If the user has logged in, the function will return a dictionary with three entries:
+      memberId, nickname, privilege
+    If the user's login is unsuccessfuld
+    """
     params = {
       "memberId"  : request.session.get("memberId", False),    
       "nickname"  : request.session.get("nickname", False),
       "privilege" : request.session.get("privilege", 99),
     }
     
-    print(params)
-
     if params['memberId'] and params['nickname']:
-        return params
+        pass
+    else:
+        params = {}
 
-    return {}
+    params["base_url"] = settings.BASE_URL
+    return params
            
 
 def index(request):

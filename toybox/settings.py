@@ -84,4 +84,5 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-
+#@Yue
+BASE_URL = "http://localhost:8000"
