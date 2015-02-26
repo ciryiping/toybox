@@ -5,6 +5,7 @@ import pickle
 
 from django.db import models
 from django.contrib.auth.models import User, Group, Permission
+
 #Group Permission to be added later
 from django.db.models.signals import post_save
 from django.utils.translation import ugettext_lazy as _
@@ -316,5 +317,4 @@ post_save.connect(update_topic_on_post, sender=Post)
 post_save.connect(update_forum_on_post, sender=Post)
 post_save.connect(update_forum_on_topic, sender=Topic)
 post_save.connect(update_user_last_activity, sender=Online)
-
 
