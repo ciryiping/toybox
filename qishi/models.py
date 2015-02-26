@@ -11,7 +11,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.db.models import Sum
 from django.conf import settings
 
-from attachments.models import Attachment
+#from attachments.models import Attachment
 from onlineuser.models import Online
  
 
@@ -123,9 +123,9 @@ class Topic(models.Model):
     last_post = models.CharField(max_length=255, blank=True)  # pickle obj
 
     has_imgs = models.BooleanField(default=False)
-    has_attachments = models.BooleanField(default=False)
+    #has_attachments = models.BooleanField(default=False)
     need_replay = models.BooleanField(default=False)  # need_reply :-)
-    need_reply_attachments = models.BooleanField(default=False)
+    #need_reply_attachments = models.BooleanField(default=False)
 
     #Moderation features
     closed = models.BooleanField(default=False)
@@ -182,10 +182,10 @@ class Post(models.Model):
 
     format = models.CharField(max_length=20, default='bbcode')  # user name
     message = models.TextField()
-    attachments = models.ManyToManyField(Attachment, blank=True)
+    #attachments = models.ManyToManyField(Attachment, blank=True)
 
     has_imgs = models.BooleanField(default=False)
-    has_attachments = models.BooleanField(default=False)
+    #has_attachments = models.BooleanField(default=False)
 
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(blank=True, null=True)
@@ -205,33 +205,33 @@ class Post(models.Model):
             return _('Topic: %s') % self.topic.subject
         return _('Re: %s') % self.topic.subject
 
-    def file_attachments(self):
-        return self.attachments.filter(is_img=False)
+    #def file_attachments(self):
+    #    return self.attachments.filter(is_img=False)
 
-    def img_attachments(self):
-        return self.attachments.filter(is_img=True)
+    #def img_attachments(self):
+    #    return self.attachments.filter(is_img=True)
 
-    def update_attachments_flag(self):
-        self.has_attachments = self.file_attachments().count() > 0
-        self.has_imgs = self.img_attachments().count() > 0
-        self.save()
-        if self.topic_post:
-            t = self.topic
-            t.has_attachments = self.has_attachments
-            t.has_imgs = self.has_imgs
-            t.save()
-
-    def update_attachments(self, attachment_ids):
-        self.attachments.clear()
-        for attachment_id in attachment_ids:
-            try:
-                attachment = Attachment.objects.get(pk=attachment_id)
-            except:
-                continue
-            attachment.activated = True
-            attachment.save()
-            self.attachments.add(attachment)
-        self.update_attachments_flag()
+#     def update_attachments_flag(self):
+#         self.has_attachments = self.file_attachments().count() > 0
+#         self.has_imgs = self.img_attachments().count() > 0
+#         self.save()
+#         if self.topic_post:
+#             t = self.topic
+#             t.has_attachments = self.has_attachments
+#             t.has_imgs = self.has_imgs
+#             t.save()
+# 
+#     def update_attachments(self, attachment_ids):
+#         self.attachments.clear()
+#         for attachment_id in attachment_ids:
+#             try:
+#                 attachment = Attachment.objects.get(pk=attachment_id)
+#             except:
+#                 continue
+#             attachment.activated = True
+#             attachment.save()
+#             self.attachments.add(attachment)
+#         self.update_attachments_flag()
 
 #TODO: use reverse() 
     @models.permalink
