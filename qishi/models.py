@@ -62,10 +62,10 @@ class Forum(models.Model):
         num_posts = self.topic_set.all().aggregate(Sum('num_replies'))
         return num_posts['num_replies__sum'] or 0
 
-#     def get_last_post(self):
-#         if not self.last_post:
-#             return {}
-#         return pickle.loads(b64decode(self.last_post))
+    def get_last_post(self):
+        if not self.last_post:
+            return {}
+        return pickle.loads(b64decode(self.last_post))
 
     @models.permalink
     def get_absolute_url(self):

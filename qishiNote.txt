@@ -1,0 +1,4 @@
+attachments cannot be added as an app
+load i18n ?
+
+TODO: registration: require email, activate step
