@@ -1,16 +1,15 @@
 import django
 from django.contrib.auth.models import User
-from qishi.models import Category, Forum, TopicType, Topic
+from qishi.models import Category, Forum
 
-category = Category(name="QishiClub")
-category.save()
-category = Category(name="Q&A",description = "discussion")
-category.save()
+ 
+c1 = Category.objects.create(name="QishiClub")
+c2 = Category.objects.create(name="Q&A",description = "discussion")
+
+f1 = Forum.objects.create(name="Premium Club", description = "for premium members",
+        category = c1)
+ 
 Category.objects.all()
-c=Category.objects.get(name="QishiClub")
-forum = Forum(name="Premium Club", description = "for premium members",
-        category = c)
-forum.save()
 
 forum = Forum(name="Premium Club", description = "for premium members")
 forum.save()
