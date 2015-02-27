@@ -1,10 +1,19 @@
 from django.conf import settings
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext, loader
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext
+from django.core.urlresolvers import reverse
+from django.views.decorators.csrf import csrf_exempt
+from qishi.models import Topic, Forum, Post
 
-#from qishi.models import User
+#to be added later
+#from forms import EditPostForm, NewPostForm, ForumForm
+#import settings as lbf_settings
 
 
 def getUserInfo(request):
@@ -33,34 +42,59 @@ def index(request):
     params = getUserInfo(request)
     return render(request, "qishi/index.html", params)
 
-
-def login(request):
-
-    # Check if user is already logged in
-    if request.session.get("memberId", False)  :
+def my_login(request):
+    if request.user.is_authenticated():
         return index(request)
-
     params = {'login_failed' : False}
     
     # If username is in the post data
     if request.POST.get('username', False):
-        try:
-            u = User.objects.get(username=request.POST['username'])
-        except:
-            pass
-        else:
-            if u.password == request.POST['password']:
-                request.session['memberId']   = u.pk
-                request.session['username']  = u.username
-#                request.session['nickname']   = u.nickname
-#                request.session['privilege'] = u.privilege
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                # Redirect to a success page.
                 return index(request)
-        params['login_failed'] = True
-
-    # display the login page
+            else:
+                # Return a 'disabled account' error message
+                params['login_failed'] = True
+        else:
+        # Return an 'invalid login' error message.
+            params['login_failed'] = True
+            
     template = loader.get_template('qishi/login.html')
     context = RequestContext(request, params)
     return  HttpResponse(template.render(context))
+
+# def login(request):
+# 
+#     # Check if user is already logged in
+#     if request.session.get("memberId", False)  :
+#         return index(request)
+# 
+#     params = {'login_failed' : False}
+#     
+#     # If username is in the post data
+#     if request.POST.get('username', False):
+#         try:
+#             u = User.objects.get(username=request.POST['username'])
+#         except:
+#             pass
+#         else:
+#             if u.password == request.POST['password']:
+#                 request.session['memberId']   = u.pk
+#                 request.session['username']  = u.username
+# #                request.session['nickname']   = u.nickname
+# #                request.session['privilege'] = u.privilege
+#                 return index(request)
+#         params['login_failed'] = True
+# 
+#     # display the login page
+#     template = loader.get_template('qishi/login.html')
+#     context = RequestContext(request, params)
+#     return  HttpResponse(template.render(context))
     
 
 
@@ -101,10 +135,8 @@ def register(request):
             return render(request, 'qishi/register.html', params)
 
         try:
-            u = User(username = username,
-                     password = password)
-            u.save()
-            return login(request)
+            User.objects.create_user( username=username,   password=password)  
+            return my_login(request)
         except:
             params['failed'] = "Cannot register (database error)."
         
@@ -114,45 +146,26 @@ def register(request):
 
 
 def logoff(request):
-    try:
-        del request.session['memberId']
-    except KeyError:
-        pass
-    try:
-        del request.session['username']
-    except KeyError:
-        pass
-
-#    try:
-#        del request.session['nickname']
-#    except KeyError:
-#        pass
-        
-#    request.session['priviledge'] = 99
+    logout(request)
     return index(request)
 
 
 def admin(request):
-
     # First check if user is already logged in
-    if request.session.get("memberId", False) and \
-       request.session.get("username", False):
+    if not request.user.is_authenticated():
         return render(request, "qishi/admin_refuse.html", {})
-
-    # Load User info
-    try:
-        u = User.objects.get(pk=request.session.get("memberId"))
-    except:
+    if reqeust.user.is_staff:
         return render(request, "qishi/admin_refuse.html", {})
-
-    if not u.is_staff:
-        return render(request, "qishi/admin_refuse.html", {})
-
-    # List all users    
+        
+     # List all users    
     user_list = User.objects.all()
 
     params = { 'user_list': user_list }
     return render(request, "qishi/admin.html", params)
+
+ 
+
+
 
 
 

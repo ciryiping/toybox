@@ -247,74 +247,74 @@ class Post(models.Model):
 
 
 
-class LBForumUserProfile(models.Model):
-    user = models.OneToOneField(User, related_name='lbforum_profile',
-                                verbose_name=_('User'))
-    last_activity = models.DateTimeField(auto_now_add=True)
-    userrank = models.CharField(max_length=30, default="Junior Member")
-    last_posttime = models.DateTimeField(auto_now_add=True)
-    signature = models.CharField(max_length=1000, blank=True)
+# class LBForumUserProfile(models.Model):
+#     user = models.OneToOneField(User, related_name='lbforum_profile',
+#                                 verbose_name=_('User'))
+#     last_activity = models.DateTimeField(auto_now_add=True)
+#     userrank = models.CharField(max_length=30, default="Junior Member")
+#     last_posttime = models.DateTimeField(auto_now_add=True)
+#     signature = models.CharField(max_length=1000, blank=True)
+# 
+#     def __unicode__(self):
+#         return self.user.username
+# 
+#     def get_total_posts(self):
+#         return self.user.post_set.count()
+# 
+#     def get_absolute_url(self):
+#         return self.user.get_absolute_url()
 
-    def __unicode__(self):
-        return self.user.username
-
-    def get_total_posts(self):
-        return self.user.post_set.count()
-
-    def get_absolute_url(self):
-        return self.user.get_absolute_url()
-
-
-#### do smoe connect ###
-def gen_last_post_info(post):
-    last_post = {
-        'posted_by': post.posted_by.username,
-        'update': post.created_on
-    }
-    return b64encode(pickle.dumps(last_post, pickle.HIGHEST_PROTOCOL))
-
-
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        LBForumUserProfile.objects.create(user=instance)
-
-
-def update_topic_on_post(sender, instance, created, **kwargs):
-    if created:
-        t = instance.topic
-        t.last_post = gen_last_post_info(instance)
-        t.last_reply_on = instance.created_on
-        t.num_replies += 1
-        t.save()
-        p = instance.posted_by.lbforum_profile
-        p.last_posttime = instance.created_on
-        p.save()
-
-
-def update_forum_on_post(sender, instance, created, **kwargs):
-    if created:
-        instance.topic.forum.last_post = gen_last_post_info(instance)
-        instance.topic.forum.num_posts += 1
-        instance.topic.forum.save()
-
-
-def update_forum_on_topic(sender, instance, created, **kwargs):
-    if created:
-        instance.forum.num_topics += 1
-        instance.forum.save()
-
-
-def update_user_last_activity(sender, instance, created, **kwargs):
-    if instance.user:
-        p, created = LBForumUserProfile.objects.get_or_create(
-            user=instance.user)
-
-        p.last_activity = instance.updated_on
-        p.save()
-
-post_save.connect(create_user_profile, sender=User)
-post_save.connect(update_topic_on_post, sender=Post)
-post_save.connect(update_forum_on_post, sender=Post)
-post_save.connect(update_forum_on_topic, sender=Topic)
-post_save.connect(update_user_last_activity, sender=Online)
+# 
+# #### do smoe connect ###
+# def gen_last_post_info(post):
+#     last_post = {
+#         'posted_by': post.posted_by.username,
+#         'update': post.created_on
+#     }
+#     return b64encode(pickle.dumps(last_post, pickle.HIGHEST_PROTOCOL))
+# 
+# 
+# def create_user_profile(sender, instance, created, **kwargs):
+#     if created:
+#         LBForumUserProfile.objects.create(user=instance)
+# 
+# 
+# def update_topic_on_post(sender, instance, created, **kwargs):
+#     if created:
+#         t = instance.topic
+#         t.last_post = gen_last_post_info(instance)
+#         t.last_reply_on = instance.created_on
+#         t.num_replies += 1
+#         t.save()
+#         p = instance.posted_by.lbforum_profile
+#         p.last_posttime = instance.created_on
+#         p.save()
+# 
+# 
+# def update_forum_on_post(sender, instance, created, **kwargs):
+#     if created:
+#         instance.topic.forum.last_post = gen_last_post_info(instance)
+#         instance.topic.forum.num_posts += 1
+#         instance.topic.forum.save()
+# 
+# 
+# def update_forum_on_topic(sender, instance, created, **kwargs):
+#     if created:
+#         instance.forum.num_topics += 1
+#         instance.forum.save()
+# 
+# 
+# def update_user_last_activity(sender, instance, created, **kwargs):
+#     if instance.user:
+#         p, created = LBForumUserProfile.objects.get_or_create(
+#             user=instance.user)
+# 
+#         p.last_activity = instance.updated_on
+#         p.save()
+# 
+# post_save.connect(create_user_profile, sender=User)
+# post_save.connect(update_topic_on_post, sender=Post)
+# post_save.connect(update_forum_on_post, sender=Post)
+# post_save.connect(update_forum_on_topic, sender=Topic)
+# post_save.connect(update_user_last_activity, sender=Online)
 

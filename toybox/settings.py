@@ -26,6 +26,10 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
+#Authentication backends
+AUTHENTICATION_BACKENDS = (
+        'django.contrib.auth.backends.ModelBackend',
+    )
 
 # Application definition
 
@@ -39,6 +43,18 @@ INSTALLED_APPS = (
 
     # ===== User Defined Apps =====
     'qishi',
+    
+    #===== LBforum ===
+    #'pagination',
+
+    #'registration',    
+    #'south', #South does not support Django 1.7 or higher.
+     'captcha',
+
+    #'simpleavatar',  #no pip support
+    'djangohelper',
+    #'onlineuser',
+    #'attachments',
 )
 
 MIDDLEWARE_CLASSES = (

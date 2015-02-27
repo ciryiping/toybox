@@ -36,8 +36,8 @@
 
           {% block login_area %}
           <ul class="nav navbar-nav navbar-right">
-            {% if username %}
-              <li><a>Welcome <b>{{ username }}</b></a></li>
+            {% if user.is_authenticated  %}
+              <li><a>Welcome <b>{{ user.username }}</b></a></li>
               <li><a id="rightmost-nav" href="{% url 'logoff' %}">Logoff</a></li>
             {% else %}
               <li><a href="{% url 'login' %}">Login</a></li>
