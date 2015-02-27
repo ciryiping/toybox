@@ -15,32 +15,13 @@ from qishi.models import Topic, Forum, Post
 #from forms import EditPostForm, NewPostForm, ForumForm
 #import settings as lbf_settings
 
-
-def getUserInfo(request):
-    """Parse User Info
-    If the user has logged in, the function will return a dictionary with two entries:
-      memberId, username 
-    If the user's login is unsuccessfuld
-    """
-    params = {
-      "memberId"  : request.session.get("memberId", False),    
-      "username"  : request.session.get("username", False),
-#      "nickname"  : request.session.get("nickname", False),
-#      "privilege" : request.session.get("privilege", 99),
-    }
-    
-    if params['memberId']  :
-        pass
-    else:
-        params = {}
-
-    params["base_url"] = settings.BASE_URL
-    return params
            
 
 def index(request):
-    params = getUserInfo(request)
-    return render(request, "qishi/index.html", params)
+    ctx = {}
+    ctx['topics'] = Topic.objects.all()  #.order_by('-last_reply_on')[:20]
+    ctx['categories'] = Category.objects.all()
+    return render(request, "qishi/index.html", ctx)
 
 def my_login(request):
     if request.user.is_authenticated():
@@ -68,35 +49,7 @@ def my_login(request):
     context = RequestContext(request, params)
     return  HttpResponse(template.render(context))
 
-# def login(request):
-# 
-#     # Check if user is already logged in
-#     if request.session.get("memberId", False)  :
-#         return index(request)
-# 
-#     params = {'login_failed' : False}
-#     
-#     # If username is in the post data
-#     if request.POST.get('username', False):
-#         try:
-#             u = User.objects.get(username=request.POST['username'])
-#         except:
-#             pass
-#         else:
-#             if u.password == request.POST['password']:
-#                 request.session['memberId']   = u.pk
-#                 request.session['username']  = u.username
-# #                request.session['nickname']   = u.nickname
-# #                request.session['privilege'] = u.privilege
-#                 return index(request)
-#         params['login_failed'] = True
-# 
-#     # display the login page
-#     template = loader.get_template('qishi/login.html')
-#     context = RequestContext(request, params)
-#     return  HttpResponse(template.render(context))
-    
-
+ 
 
 def register(request):
 

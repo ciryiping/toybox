@@ -48,7 +48,6 @@ INSTALLED_APPS = (
     #'pagination',
 
     #'registration',    
-    #'south', #South does not support Django 1.7 or higher.
      'captcha',
 
     #'simpleavatar',  #no pip support

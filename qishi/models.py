@@ -42,6 +42,7 @@ class Forum(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(default='')
     ordering = models.PositiveIntegerField(default=1)
+    category = models.ForeignKey(Category)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(blank=True, null=True)
     num_topics = models.IntegerField(default=0)

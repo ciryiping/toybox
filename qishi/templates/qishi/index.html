@@ -1,5 +1,6 @@
 {% extends "qishi/base.html" %}
 {% load staticfiles %}
+{% load i18n %}
 
 {% block header-image %}
 <header class="intro-header" style="background-image: url({{ base_url }}{% static 'qishi/images/mountain.jpg' %})">
@@ -28,6 +29,7 @@
        <a href="{% url 'register' %}">register</a> </p>
     {% endif %}
 </div>
+
 {% endblock %}
 
     <!-- jQuery -->
