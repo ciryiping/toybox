@@ -39,12 +39,12 @@
         <!-- brd-main begins -->
 <div id="brd-main">
     <div class="main-head">
-        <h1 class="hn"><span>  FORUM_TITLE </span></h1>
+        <h1 class="hn"><span>  论坛 </span></h1>
     </div>
  
-
+{% for category in categories %}
 <div class="main-subhead">
-    <h2 class="hn"><span>Category</span></h2>  
+    <h2 class="hn"><span>{{ category.name }}</span></h2>  
         <p class="item-summary"> 
         <span>
             <strong class="info-topics">{% trans "topics" %}</strong>,
@@ -54,7 +54,7 @@
     </p>
 </div>
 <div class="main-content main-category">
-    {% for forum in forums %}
+    {% for forum in category.forum_set.all %}
     <div id="forum" class="main-item {% cycle 'odd' 'even' %} {% if forloop.first %}main-item1{% endif %}">
         <span class="icon "><!-- --></span>
 
@@ -81,7 +81,7 @@
     </div>
     {% endfor %}
 </div>
-
+{% endfor %} <!-- endfor category -->
 </div>
 
 </div><!-- brd-index ends -->

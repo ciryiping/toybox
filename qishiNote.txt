@@ -3,4 +3,6 @@ load i18n ?
 
 TODO: registration: require email, activate step
 
-add Forum.slug
+#add Forum.slug
+
+index.html : links to forum
