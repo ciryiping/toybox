@@ -9,7 +9,10 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ugettext
 from django.core.urlresolvers import reverse
 from django.views.decorators.csrf import csrf_exempt
-from qishi.models import Topic, Forum, Post
+from qishi.models import Category, Topic, Forum, Post
+from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 #to be added later
 #from forms import EditPostForm, NewPostForm, ForumForm
@@ -21,6 +24,7 @@ def index(request):
     ctx = {}
     ctx['topics'] = Topic.objects.all()  #.order_by('-last_reply_on')[:20]
     ctx['categories'] = Category.objects.all()
+    ctx['forums'] = Forum.objects.all()
     return render(request, "qishi/index.html", ctx)
 
 def my_login(request):
@@ -116,6 +120,7 @@ def admin(request):
     params = { 'user_list': user_list }
     return render(request, "qishi/admin.html", params)
 
+
  
 
 
@@ -124,3 +129,24 @@ def admin(request):
 
 def page_not_found(request):
     return HttpResponse("Qishi 404: Page Not Found.")
+    
+
+def forum(request, forum_slug, topic_type='', topic_type2='',
+        template_name="qishi/forum.html"):
+    forum = get_object_or_404(Forum, slug=forum_slug)
+    topics = forum.topic_set.all()
+    if topic_type and topic_type != 'good':
+        topic_type2 = topic_type
+        topic_type = ''
+    if topic_type == 'good':
+        topics = topics.filter(level__gt=30)
+        #topic_type = _("Distillate District")
+    if topic_type2:
+        topics = topics.filter(topic_type__slug=topic_type2)
+    order_by = request.GET.get('order_by', '-last_reply_on')
+    topics = topics.order_by('-sticky', order_by).select_related()
+    form = ForumForm(request.GET)
+    ext_ctx = {'form': form, 'forum': forum, 'topics': topics,
+            'topic_type': topic_type, 'topic_type2': topic_type2}
+    return render(request, template_name, ext_ctx)
+
