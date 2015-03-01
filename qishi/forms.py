@@ -42,7 +42,7 @@ class PostForm(forms.ModelForm):
         self.fields['topic_type'].choices = [(tp.id, tp.name) for tp in topic_types]
         self.fields['topic_type'].choices.insert(0, (('', '--------')))
         self.fields.keyOrder = ['topic_type', 'subject', 'message', 'need_replay',
-#                'need_reply_attachments']
+                'need_reply_attachments']
 #        self.fields.keyOrder = ['topic_type', 'subject', 'message', 'attachments', 'need_replay',
 #                'need_reply_attachments']
 

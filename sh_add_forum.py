@@ -9,10 +9,14 @@ c2 = Category.objects.create(name="Q&A",description = "discussion")
 f1 = Forum.objects.create(name="Premium Club", description = "for premium members",
         category = c1)
  
-Category.objects.all()
 
-forum = Forum(name="Premium Club", description = "for premium members")
+
+ 
+forum = Forum(name="Career Club", description = "for career excellence", category = c1)
 forum.save()
+
+Category.objects.all()
+c1.forum_set.all()
 
 
  

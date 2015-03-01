@@ -15,16 +15,16 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
 #to be added later
-#from forms import EditPostForm, NewPostForm, ForumForm
+from qishi.forms import EditPostForm, NewPostForm, ForumForm
 #import settings as lbf_settings
 
            
 
 def index(request):
     ctx = {}
-    ctx['topics'] = Topic.objects.all()  #.order_by('-last_reply_on')[:20]
+    ctx['topics'] = Topic.objects.all().order_by('-last_reply_on')[:20]
     ctx['categories'] = Category.objects.all()
-    ctx['forums'] = Forum.objects.all()
+    #ctx['forums'] = Forum.objects.all()
     return render(request, "qishi/index.html", ctx)
 
 def my_login(request):
@@ -121,12 +121,6 @@ def admin(request):
     return render(request, "qishi/admin.html", params)
 
 
- 
-
-
-
-
-
 def page_not_found(request):
     return HttpResponse("Qishi 404: Page Not Found.")
     
@@ -150,3 +144,18 @@ def forum(request, forum_slug, topic_type='', topic_type2='',
             'topic_type': topic_type, 'topic_type2': topic_type2}
     return render(request, template_name, ext_ctx)
 
+def topic(request, topic_id, template_name="lbforum/topic.html"):
+    topic = get_object_or_404(Topic, id=topic_id)
+    topic.num_views += 1
+    topic.save()
+    posts = topic.posts
+#    if lbf_settings.STICKY_TOPIC_POST:  # sticky topic post
+#        posts = posts.filter(topic_post=False)
+    posts = posts.order_by('created_on').select_related()
+    ext_ctx = {'topic': topic, 'posts': posts}
+    ext_ctx['has_replied'] = topic.has_replied(request.user)
+    return render(request, template_name, ext_ctx)
+    
+def post(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    return HttpResponseRedirect(post.get_absolute_url_ext())

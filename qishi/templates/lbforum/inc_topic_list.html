@@ -1,0 +1,40 @@
+{% load i18n %}
+
+<div class="main-pagehead">
+    <h2 class="hn">
+        {% if forum %}
+        {% if forum.topictype_set.all.count %}
+        <span><a class="{% if not topic_type2 %}selected{% endif %}"
+                    href=" ">{% trans "All" %}</a></span>
+        {% for tp in forum.topictype_set.all %}     
+        <span><a class="{% if topic_type2 == tp.slug %}selected{% endif %}"
+                    href=" ">{{ tp.name }}</a></span>
+        {% endfor %}
+        <span>|</span>
+        {% endif %}
+
+        <span>
+            <a class="{% if topic_type != "good" %}selected{% endif %}" 
+                    href=" ">{% trans "All" %}</a>
+        </span>
+        <span><a class="{% if topic_type == "good" %}selected{% endif %}" 
+                    href=" ">{% trans "Distillate District" %}</a></span>
+        <span>|</span>
+        {% endif %}
+		<span class="item-info">{% trans "Topics" %} [ TODO ]</span></h2>  {#{% page_range_info page_obj %}#}
+</div>
+<div class="main-subhead">
+    <p class="item-summary forum-views">
+        <span>
+            <strong class="subject-title">{% trans "Topics" %}</strong> in this forum with details of 
+            <strong class="info-replies">{% trans "replies" %}</strong>, 
+            <strong class="info-views">{% trans "views" %}</strong>, 
+            <strong class="info-lastpost">{% trans "last post" %}</strong>.
+        </span>
+    </p>
+</div>
+<div id="topicslist" class="main-content main-forum forum-views">
+    {% for topic in topics %}     
+    {% include 'lbforum/inc_topic_detail.html' %}  
+    {% endfor %}
+</div>
