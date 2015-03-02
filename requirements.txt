@@ -1,0 +1,11 @@
+Django==1.7.4
+django-appconf==1.0.1
+django-helper==0.8.4
+django-imagekit==3.2.5
+django-lb-attachments==0.8.3
+django-onlineuser==0.8.7
+django-pagedown==0.1.0
+django-pagination-py3==1.1.1
+
+
+
