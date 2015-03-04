@@ -1,0 +1,67 @@
+{% extends "qishi/base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% load pagination_tags %}
+
+{% block header-image %}
+<header class="intro-header" style="background-image: url({{ base_url }}{% static 'qishi/images/mountain.jpg' %})">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="site-heading">
+                        <h1>Welcom to Qishi</h1>
+                        <hr class="small">
+                        <span class="subheading">The Road to Excellence</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>    
+{% endblock %}
+
+{% block content %}
+ 
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/blog-post.css" rel="stylesheet">
+    {% for blog in blogs %}  
+        <!-- Title -->
+                <h1>{{blog.subject}}</h1>
+
+                <!-- Author -->
+                <p class="lead">
+                    by  {{blog.posted_by.username }}
+                </p>
+
+                <hr>
+
+                <!-- Date/Time -->
+                <p><span class="glyphicon glyphicon-time"></span> Posted on </p>
+
+ 
+
+                <hr>
+                
+                <!-- Post Content -->
+                {{blog.post.message}}
+                <hr>     
+     
+    {% endfor %}
+    
+{% endblock %}
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Script to Activate the Carousel -->
+    <script>
+    $('.carousel').carousel({
+        interval: 5000 //changes the speed
+    })
+    </script>

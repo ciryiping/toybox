@@ -3,16 +3,17 @@ load i18n ?
 
 TODO: registration: require email, activate step
 
-#add Forum.slug
 
-index.html : links to forum
-
-forum line 49 : {% url 'lbforum_new_topic' forum_id=forum.pk %}
-
-forum line 69 : {% url 'lbforum_new_topic' forum_id=forum.pk %}
+ 
 
 inc_topic.detail.html ：		{#{% post_paginate topic.num_replies TOPIC_PAGE_SIZE %}#}
 
 models: topic ---> blog, topic.likes
 
-reply count -1 ?
+login return to the previous page 
+
+add accountview
+ 
+ 
+At the end of post.html: javascripts were deleted. These are related to markup and attachment.
+ {# original scripts are deleted. See lbforum/templates/post.html to add back   #}

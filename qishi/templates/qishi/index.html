@@ -1,6 +1,7 @@
 {% extends "qishi/base.html" %}
 {% load staticfiles %}
 {% load i18n %}
+{% load lbforum_filters %}
 
 {% block header-image %}
 <header class="intro-header" style="background-image: url({{ base_url }}{% static 'qishi/images/mountain.jpg' %})">
@@ -73,7 +74,7 @@
             <li class="info-lastpost">
                 <span class="label">{% trans "Last post" %}:</span>
                 {% if forum.get_last_post %}
-                  <strong>{{ forum.get_last_post.update }}</strong> 
+                  <strong>{{ forum.get_last_post.update |lbtimesince}}</strong> 
                   <cite>by {{ forum.get_last_post.posted_by }}</cite>
                 {% endif %}
             </li>
