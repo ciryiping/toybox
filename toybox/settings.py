@@ -48,7 +48,7 @@ INSTALLED_APPS = (
     'pagination',
 
     #'registration',    
-     'captcha',
+    # 'captcha',
 
     #'simpleavatar',  #no pip support
     'djangohelper',

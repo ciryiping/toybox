@@ -1,6 +1,6 @@
 import django
 from django.contrib.auth.models import User
-from qishi.models import Category, Forum
+from qishi.models import Category, Forum, Topic, Post
 
  
 c1 = Category.objects.create(name="QishiClub")
@@ -19,5 +19,7 @@ Category.objects.all()
 c1.forum_set.all()
 
 
+
+blogs = Topic.objects.filter(topic_type__slug="blog")
  
  
