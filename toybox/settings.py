@@ -118,10 +118,10 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 
 CTX_CONFIG = {
-        'LBFORUM_TITLE': '论坛',
+        'LBFORUM_TITLE': '琪石论坛',
         'LBFORUM_SUB_TITLE': 'sub title',
-        'FORUM_PAGE_SIZE': 50,
-        'TOPIC_PAGE_SIZE': 20,
+        'FORUM_PAGE_SIZE': 10,
+        'TOPIC_PAGE_SIZE': 10,
 
         #URLS....
         }

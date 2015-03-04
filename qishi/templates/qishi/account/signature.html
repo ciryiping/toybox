@@ -1,18 +1,17 @@
-{% extends 'lbforum/account/base.html' %}
+{% extends 'qishi/account/base.html' %}
 
 {% load i18n %}
 {% load lbforum_filters %}
-{% load lbforum_tags %}
 
-{% block title %}
-	{{ LBFORUM_TITLE }} - {% blocktrans %}{{ user }}'s profile{% endblocktrans %} : {% trans "Signature" %}
-{% endblock %}
+{#{% load lbforum_tags %}#}
 
+ 
+{% comment "add later" %}
 {% block extra_header %}
     <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}lbforum/scripts/markitup/skins/markitup/style.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}lbforum/scripts/markitup/sets/bbcode/style.css" />
 {% endblock %}
-
+{% endcomment %}
 {% block brd-page-id %}brd-profile-signature{% endblock %}
 
 {% block main_menu_sig_class %}active{% endblock %}
@@ -35,7 +34,7 @@
             <div class="ct-set info-set set1">
                 <div class="ct-box info-box">
                     <h3 class="ct-legend hn">{% trans "Current signature" %}</h3>
-                    <div class="sig-demo">{{ user.lbforum_profile.signature|bbcode|safe }}</div>
+                    <div class="sig-demo">{{ user.lbforum_profile.signature}}</div> {# "filter" |bbcode|safe #}
                 </div>
             </div>
             <div class="txt-set set2">
@@ -60,12 +59,4 @@
     </form>
 {% endblock %}
 
-{% block content_footer %}
-    <script type="text/javascript" src="{{ STATIC_URL }}lbforum/scripts/jquery.min.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}lbforum/scripts/markitup/jquery.markitup.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}lbforum/scripts/markitup/sets/bbcode/set.js"></script>
-    <script type="text/javascript">
-        mySettings['previewParserPath']="{% url 'markitup_preview' %}";
-	    $("#id_signature").markItUp(mySettings);
-    </script>
-{% endblock %}
+

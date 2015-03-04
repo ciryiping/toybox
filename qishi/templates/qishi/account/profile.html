@@ -1,14 +1,11 @@
-{% extends 'lbforum/account/base.html' %}
+{% extends 'qishi/account/base.html' %}
 
 {% load i18n %}
 {% load lbforum_filters %}
 {% load lbforum_tags %}
-{% load avatar_tags %}
+{#{% load avatar_tags %}#}
 
-{% block title %}
-	{{ LBFORUM_TITLE }} - {% blocktrans %}{{ view_user }}'s profile{% endblocktrans %}
-{% endblock %}
-
+ 
 {% block brd-page-id %}brd-profile-about{% endblock %}
 
 {% block main_menu_profile_class %}active{% endblock %}
@@ -18,7 +15,7 @@
 {% block account_main_content %}
     {% if user == view_user %}
 	<p class="content-options options">
-		<span class="item1"><a href="{% url 'auth_password_change' %}">{% trans "Change your password" %}</a></span>
+		<span class="item1"><a href="">{% trans "Change your password (TODO)" %}</a></span>
 	</p>
     {% endif %}
     
@@ -28,7 +25,7 @@
 				<ul class="user-ident ct-legend">
                     <li class="username fn nickname"><strong>{{ view_user }}</strong></li>
 					<li class="usertitle"><span>{% trans "Member" %}</span></li>					
-					<li class="useravatar">{% avatar view_user %}</li>
+					{#<li class="useravatar">{% avatar view_user %}</li> #}
 				</ul>
 				<ul class="data-list">
 					<li><span>{% trans "Registered" %}: <strong>{{view_user.date_joined|date:"Y-m-d"}}</strong></span></li>

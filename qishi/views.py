@@ -253,7 +253,7 @@ def edit_post(request, post_id, form_class=EditPostForm,
 
 @login_required
 def user_topics(request, user_id,
-                template_name='lbforum/account/user_topics.html'):
+                template_name='qishi/account/user_topics.html'):
     view_user = User.objects.get(pk=user_id)
     topics = view_user.topic_set.order_by('-created_on').select_related()
     context = {
@@ -267,7 +267,7 @@ def user_topics(request, user_id,
 
 @login_required
 def user_posts(request, user_id,
-               template_name='lbforum/account/user_posts.html'):
+               template_name='qishi/account/user_posts.html'):
     view_user = User.objects.get(pk=user_id)
     posts = view_user.post_set.order_by('-created_on').select_related()
     context = {

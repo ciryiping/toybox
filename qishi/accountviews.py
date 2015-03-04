@@ -1,11 +1,13 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 
 from qishi.forms import SignatureForm
 
 
-def profile(request, user_id=None, template_name="lbforum/account/profile.html"):
+def profile(request, user_id=None, template_name="qishi/account/profile.html"):
+    #return HttpResponse("You're looking at this page.")
     view_user = request.user
     if user_id:
         view_user = get_object_or_404(User, pk=user_id)
@@ -15,7 +17,7 @@ def profile(request, user_id=None, template_name="lbforum/account/profile.html")
 
 
 @login_required
-def signature(request, form_class=SignatureForm, template_name="lbforum/account/signature.html"):
+def signature(request, form_class=SignatureForm, template_name="qishi/account/signature.html"):
     profile = request.user.lbforum_profile
     if request.method == "POST":
         form = form_class(instance=profile, data=request.POST)

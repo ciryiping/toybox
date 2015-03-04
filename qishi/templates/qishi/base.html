@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load i18n %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -41,6 +42,7 @@
           <ul class="nav navbar-nav navbar-right">
             {% if user.is_authenticated  %}
               <li><a>Welcome <b>{{ user.username }}</b></a></li>
+              <li id="navprofile"><a href="{% url 'lbforum_account_index' %}">{% trans "My profile" %}</a></li>
               <li><a id="rightmost-nav" href="{% url 'logoff' %}">Logoff</a></li>
             {% else %}
               <li><a href="{% url 'login' %}">Login</a></li>
