@@ -8,7 +8,7 @@ from django.utils.translation import ugettext_lazy as _
 from qishi.models import Topic, Post, TopicType
 from qishi.models import LBForumUserProfile
 
-from bootstrap_markdown.widgets import MarkdownEditor
+#from bootstrap_markdown.widgets import MarkdownEditor
 
 FORUM_ORDER_BY_CHOICES = (
     ('-last_reply_on', _('Last Reply')),
