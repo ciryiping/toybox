@@ -8,6 +8,8 @@ from django.utils.translation import ugettext_lazy as _
 from qishi.models import Topic, Post, TopicType
 from qishi.models import LBForumUserProfile
 
+from bootstrap_markdown.widgets import MarkdownEditor
+
 FORUM_ORDER_BY_CHOICES = (
     ('-last_reply_on', _('Last Reply')),
     ('-created_on', _('Last Topic')),
@@ -21,6 +23,7 @@ class ForumForm(forms.Form):
 class PostForm(forms.ModelForm):
     topic_type = forms.ChoiceField(label=_('Topic Type'), required=False)
     subject = forms.CharField(label=_('Subject'), widget=forms.TextInput(attrs={'size': '80'}))
+    #message = forms.CharField(label=_('Message'), widget=MarkdownEditor(attrs={'id': 'message'}))
     message = forms.CharField(label=_('Message'), widget=forms.Textarea(attrs={'cols': '95', 'rows': '14'}))
 #    attachments = forms.Field(label=_('Attachments'), required=False, widget=forms.SelectMultiple())
     need_replay = forms.BooleanField(label=_('Need Reply'), required=False)

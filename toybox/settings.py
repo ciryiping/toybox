@@ -43,7 +43,7 @@ INSTALLED_APPS = (
 
     # ===== User Defined Apps =====
     'qishi',
-    
+    #'bootstrap_markdown',
     #===== LBforum ===
     'pagination',
 
