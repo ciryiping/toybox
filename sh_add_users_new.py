@@ -9,7 +9,8 @@ user.is_staff = True
 user.save
 user = User.objects.create_user( username="test1",   password="123123")
 user = User.objects.create_user( username="test2",   password="123123")
-user = authenticate( username="test1",password="123123")
+user = User.objects.create_user( username="testprofile",   password="123123")
+ 
 
  
  
