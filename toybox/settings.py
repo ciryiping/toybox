@@ -103,7 +103,12 @@ STATIC_URL = '/static/'
 #@Yue
 BASE_URL = "http://localhost:8000"
 
+
 #@Yiping
+ROOT_URL = '/qishi/'
+#LOGIN_REDIRECT_URL = ROOT_URL
+LOGIN_URL = '%slogin/' % ROOT_URL
+
 TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.auth.context_processors.auth",
     "django.core.context_processors.debug",

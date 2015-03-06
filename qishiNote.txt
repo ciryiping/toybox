@@ -17,3 +17,5 @@ add accountview
  
 At the end of post.html: javascripts were deleted. These are related to markup and attachment.
  {# original scripts are deleted. See lbforum/templates/post.html to add back   #}
+
+click user name link not found
